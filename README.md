@@ -35,4 +35,14 @@ A modern drag-and-drop form builder built with Next.js and React DnD. This appli
 
 ```bash
 git clone https://github.com/christianmartincabucos/admin-ui.git
-cd nextjs-form-builder
+cd admin-ui
+
+2. Install depedencies
+
+```bash
+npm install or npm install --legacy-peer-deps
+
+3. Run the application
+
+```bash
+npm run dev
