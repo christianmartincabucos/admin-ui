@@ -36,5 +36,5 @@ A modern drag-and-drop form builder built with Next.js and React DnD. This appli
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/nextjs-form-builder.git
+git clone https://github.com/christianmartincabucos/admin-ui.git
 cd nextjs-form-builder
