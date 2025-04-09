@@ -26,12 +26,12 @@ export default function DraggableFieldType({ type, label, icon }: DraggableField
   return (
     <div
       ref={drag}
-      className={`flex items-center p-3 border rounded-md cursor-move hover:bg-gray-50 ${
+      className={`flex items-center p-3 border rounded-md cursor-move transition-all ${
         isDragging ? "opacity-50" : ""
-      }`}
+      } hover:border-violet-300 hover:bg-violet-50 group`}
     >
-      <div className="mr-2 text-gray-700">{icon}</div>
-      <span>{label}</span>
+      <div className="mr-2 text-violet-500 bg-violet-50 p-1.5 rounded-md group-hover:bg-violet-100">{icon}</div>
+      <span className="font-medium text-gray-700">{label}</span>
     </div>
   )
 }

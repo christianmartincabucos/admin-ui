@@ -14,7 +14,11 @@ export default function FormTabs({ forms, activeFormId, onFormSelect }: FormTabs
       {forms.map((form) => (
         <button
           key={form.id}
-          className={`px-4 py-2 rounded-md ${activeFormId === form.id ? "bg-white shadow-sm" : "hover:bg-gray-200"}`}
+          className={`px-4 py-2 rounded-md transition-colors ${
+            activeFormId === form.id
+              ? "bg-white shadow-sm text-violet-700 font-medium"
+              : "hover:bg-gray-200 text-gray-700"
+          }`}
           onClick={() => onFormSelect(form.id)}
         >
           {form.name}

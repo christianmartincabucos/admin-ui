@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import type { Field, DragItem, FieldType } from "@/lib/types"
 
 interface FieldItemProps {
@@ -142,7 +143,7 @@ export default function FieldItem({
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     onUpdate({
       ...field,
@@ -157,22 +158,29 @@ export default function FieldItem({
     })
   }
 
+  const handleSelectChange = (name: string, value: string) => {
+    onUpdate({
+      ...field,
+      [name]: value,
+    })
+  }
+
   return (
     <div
       ref={ref}
-      className={`border rounded-md ${
-        isSelected ? "border-gray-400" : "border-gray-200"
-      } ${isDragging ? "opacity-50" : "opacity-100"}`}
+      className={`border rounded-md shadow-sm transition-all ${
+        isSelected ? "border-violet-400 ring-1 ring-violet-400" : "border-gray-200"
+      } ${isDragging ? "opacity-50" : "opacity-100"} ${expanded ? "bg-gray-50" : "bg-white hover:bg-gray-50"}`}
     >
       <div className="flex items-center p-3 cursor-pointer" onClick={onClick}>
         <div className="mr-2 cursor-move">
           <GripVertical className="h-5 w-5 text-gray-400" />
         </div>
 
-        <div className="mr-2 text-gray-500">{getFieldIcon()}</div>
+        <div className="mr-2 text-violet-500 bg-violet-50 p-1.5 rounded-md">{getFieldIcon()}</div>
 
         <div className="flex-1">
-          <div className="font-medium">{field.label}</div>
+          <div className="font-medium text-gray-800">{field.label}</div>
           <div className="text-xs text-gray-500 capitalize">{fieldType?.label || field.type}</div>
         </div>
 
@@ -181,7 +189,7 @@ export default function FieldItem({
             e.stopPropagation()
             setExpanded(!expanded)
           }}
-          className="p-1 text-gray-400 hover:text-gray-600 mr-1"
+          className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md mr-1"
         >
           {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </button>
@@ -191,41 +199,98 @@ export default function FieldItem({
             e.stopPropagation()
             onDelete()
           }}
-          className="p-1 text-gray-400 hover:text-red-500"
+          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md"
         >
           <Trash2 className="h-4 w-4" />
         </button>
       </div>
 
       {expanded && (
-        <div className="p-3 border-t border-gray-200 bg-gray-50">
-          <div className="space-y-3">
+        <div className="p-4 border-t border-gray-200 bg-gray-50 space-y-4">
+          <div>
+            <Label htmlFor={`label-${field.id}`} className="text-sm font-medium text-gray-700">
+              Label
+            </Label>
+            <Input id={`label-${field.id}`} name="label" value={field.label} onChange={handleChange} className="mt-1" />
+          </div>
+
+          {(field.type === "text" || field.type === "email" || field.type === "phone" || field.type === "number") && (
             <div>
-              <Label htmlFor={`label-${field.id}`}>Label</Label>
-              <Input id={`label-${field.id}`} name="label" value={field.label} onChange={handleChange} />
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id={`required-${field.id}`}
-                checked={field.required}
-                onCheckedChange={(checked) => handleRequiredChange(checked === true)}
+              <Label htmlFor={`placeholder-${field.id}`} className="text-sm font-medium text-gray-700">
+                Placeholder
+              </Label>
+              <Input
+                id={`placeholder-${field.id}`}
+                name="placeholder"
+                value={field.placeholder || ""}
+                onChange={handleChange}
+                placeholder="Enter placeholder text"
+                className="mt-1"
               />
-              <Label htmlFor={`required-${field.id}`}>Required field</Label>
             </div>
+          )}
 
-            {(field.type === "text" || field.type === "email" || field.type === "phone" || field.type === "number") && (
-              <div>
-                <Label htmlFor={`placeholder-${field.id}`}>Placeholder</Label>
-                <Input
-                  id={`placeholder-${field.id}`}
-                  name="placeholder"
-                  value={field.placeholder || ""}
-                  onChange={handleChange}
-                  placeholder="Enter placeholder text"
-                />
-              </div>
-            )}
+          {field.type === "list" && (
+            <div>
+              <Label htmlFor={`placeholder-${field.id}`} className="text-sm font-medium text-gray-700">
+                Placeholder
+              </Label>
+              <Textarea
+                id={`placeholder-${field.id}`}
+                name="placeholder"
+                value={field.placeholder || ""}
+                onChange={handleChange}
+                placeholder="Enter placeholder text"
+                className="mt-1"
+              />
+            </div>
+          )}
+
+          <div>
+            <Label htmlFor={`description-${field.id}`} className="text-sm font-medium text-gray-700">
+              Help Text
+            </Label>
+            <Textarea
+              id={`description-${field.id}`}
+              name="description"
+              value={field.description || ""}
+              onChange={handleChange}
+              placeholder="Enter help text for this field"
+              className="mt-1"
+            />
+          </div>
+
+          {field.type === "select" && (
+            <div>
+              <Label htmlFor={`options-${field.id}`} className="text-sm font-medium text-gray-700">
+                Options (one per line)
+              </Label>
+              <Textarea
+                id={`options-${field.id}`}
+                name="options"
+                value={field.options?.join("\n") || ""}
+                onChange={(e) => {
+                  const options = e.target.value.split("\n").filter((option) => option.trim() !== "")
+                  onUpdate({
+                    ...field,
+                    options,
+                  })
+                }}
+                placeholder="Option 1&#10;Option 2&#10;Option 3"
+                className="mt-1"
+              />
+            </div>
+          )}
+
+          <div className="flex items-center space-x-2 pt-2">
+            <Checkbox
+              id={`required-${field.id}`}
+              checked={field.required}
+              onCheckedChange={(checked) => handleRequiredChange(checked === true)}
+            />
+            <Label htmlFor={`required-${field.id}`} className="text-sm font-medium text-gray-700">
+              Required field
+            </Label>
           </div>
         </div>
       )}

@@ -76,14 +76,19 @@ export default function FieldDropZone({ fields, fieldTypes, onFieldDrop, onField
   return (
     <div
       ref={drop}
-      className={`min-h-[400px] border-2 border-dashed rounded-lg p-4 ${
-        isOver ? "border-gray-400 bg-gray-50" : "border-gray-200"
+      className={`min-h-[400px] border-2 border-dashed rounded-lg p-4 transition-colors ${
+        isOver
+          ? "border-violet-400 bg-violet-50"
+          : fields.length === 0
+            ? "border-gray-300 hover:border-violet-300 hover:bg-violet-50/30"
+            : "border-gray-200"
       }`}
     >
       {fields.length === 0 ? (
         <div className="h-full flex flex-col items-center justify-center text-gray-400 py-20">
-          <Upload className="w-16 h-16 mb-4" />
+          <Upload className="w-16 h-16 mb-4 text-violet-300" />
           <p className="text-lg">Drag fields here to build your form</p>
+          <p className="text-sm mt-2 text-gray-500">Or click a field type to add it to your form</p>
         </div>
       ) : (
         <div className="space-y-3">

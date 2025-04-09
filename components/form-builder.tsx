@@ -16,8 +16,15 @@ export default function FormBuilder() {
   // Initialize with default field types
   const [fieldTypes, setFieldTypes] = useLocalStorage<FieldType[]>("fieldTypes", [
     { id: "text", label: "Text Field", icon: "text" },
+    { id: "email", label: "Email Field", icon: "email" },
+    { id: "number", label: "Number Field", icon: "number" },
+    { id: "phone", label: "Phone Field", icon: "phone" },
     { id: "checkbox", label: "Checkbox", icon: "checkbox" },
     { id: "date", label: "Date Picker", icon: "calendar" },
+    { id: "textarea", label: "Text Area", icon: "list" },
+    { id: "select", label: "Dropdown", icon: "list" },
+    { id: "toggle", label: "Toggle Switch", icon: "toggle" },
+    { id: "file", label: "File Upload", icon: "file" },
   ])
 
   // Initialize with default forms

@@ -55,17 +55,17 @@ export default function FormCanvasSection({ form, fieldTypes, onFieldDrop, onFie
   }
 
   return (
-    <div className="bg-white border rounded-lg p-6">
+    <div className="bg-white border rounded-lg p-6 shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
-          <LayoutGrid className="w-5 h-5 mr-2" />
-          <h2 className="text-xl font-semibold">Form Canvas</h2>
+          <LayoutGrid className="w-5 h-5 mr-2 text-violet-500" />
+          <h2 className="text-xl font-semibold text-gray-800">Form Canvas</h2>
         </div>
 
         <div className="flex space-x-2">
           <button
             onClick={handleExport}
-            className="flex items-center px-4 py-2 bg-white border rounded-md hover:bg-gray-50"
+            className="flex items-center px-4 py-2 bg-white border border-gray-200 rounded-md hover:bg-gray-50 text-gray-700 transition-colors"
           >
             <Download className="w-4 h-4 mr-2" />
             Export
@@ -73,7 +73,7 @@ export default function FormCanvasSection({ form, fieldTypes, onFieldDrop, onFie
 
           <button
             onClick={handleImport}
-            className="flex items-center px-4 py-2 bg-white border rounded-md hover:bg-gray-50"
+            className="flex items-center px-4 py-2 bg-white border border-gray-200 rounded-md hover:bg-gray-50 text-gray-700 transition-colors"
           >
             <Upload className="w-4 h-4 mr-2" />
             Import
