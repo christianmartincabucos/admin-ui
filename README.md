@@ -3,8 +3,6 @@
 
 A modern drag-and-drop form builder built with Next.js and React DnD. This application allows users to create, customize, and preview forms with various field types.
 
-![Form Builder Screenshot](/placeholder.svg?height=400&width=800)
-
 ## Features
 
 - **Drag-and-Drop Interface**: Easily build forms by dragging field types onto the canvas
